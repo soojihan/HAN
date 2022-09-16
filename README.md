@@ -5,7 +5,7 @@ Sooji, Han, Rui Mao, and Erik Cambria. "Hierarchical Attention Network for Expla
 
 # Datasets
 We are currently working on the release of the datasets (tweets and associated metaphor concept mappings publicly.
-In the meantime, please contact Sooji Han (suji.han.x@gmail.com) for requesting the datasets.
+In the meantime, please contact [Sooji Han](suji.han.x@gmail.com) for requesting the datasets.
 
 # How to run
 
