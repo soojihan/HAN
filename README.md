@@ -4,8 +4,8 @@ This repository contains source code for our paper:
 Sooji, Han, Rui Mao, and Erik Cambria. "Hierarchical Attention Network for Explainable Depression Detection on Twitter Aided by Metaphor Concept Mappings." In Proceedings of the 29th International Conference on Computational Linguistics (COLING), 2022. in press
 
 # Datasets
-We are currently working on the release of the datasets (tweets and associated metaphor concept mappings publicly.
-In the meantime, please contact [Sooji Han](suji.han.x@gmail.com) for requesting the datasets.
+
+The datasets used for training and evaluating HAN are available at https://zenodo.org/record/7095100
 
 # How to run
 
