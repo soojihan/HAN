@@ -110,22 +110,6 @@ class DepressionDataReader(DatasetReader):
             label = data_row[0]
             yield self.text_to_instance(user_id=user_id, tag=label)
 
-
-class DotProductAttention(nn.Module):
-    """
-    Compute the dot products of the query with all values and apply a softmax function to obtain the weights on the values
-    """
-    def __init__(self, hidden_dim: int):
-        super(DotProductAttention, self).__init__()
-
-    def forward(self, query: Tensor, value: Tensor) -> Tuple[Tensor, Tensor]:
-        batch_size, hidden_dim, input_size = query.size(0), query.size(2), value.size(1)
-
-        score = torch.bmm(query, value.transpose(1, 2))
-        attn = F.softmax(score.view(-1, input_size), dim=1).view(batch_size, -1, input_size)
-        context = torch.bmm(attn, value)
-
-        return context, attn
     
 class ScaledDotProductAttention(nn.Module):
     """
@@ -154,34 +138,7 @@ class ScaledDotProductAttention(nn.Module):
         attn = F.softmax(score, -1)
         context = torch.bmm(attn, key)
         return context, attn
-    
-class AdditiveAttention(nn.Module):
-    """
-     Applies a additive attention (bahdanau) mechanism on the output features from the decoder.
-     Additive attention proposed in "Neural Machine Translation by Jointly Learning to Align and Translate" paper.
-     Args:
-         hidden_dim (int): dimesion of hidden state vector
-     Inputs: query, value
-         - **query** (batch_size, q_len, hidden_dim): tensor containing the output features from the decoder.
-         - **value** (batch_size, v_len, hidden_dim): tensor containing features of the encoded input sequence.
-     Returns: context, attn
-         - **context**: tensor containing the context vector from attention mechanism.
-         - **attn**: tensor containing the alignment from the encoder outputs.
-     Reference:
-         - **Neural Machine Translation by Jointly Learning to Align and Translate**: https://arxiv.org/abs/1409.0473
-    """
-    def __init__(self, hidden_dim: int) -> None:
-        super(AdditiveAttention, self).__init__()
-        self.query_proj = nn.Linear(hidden_dim, hidden_dim, bias=False)
-        self.key_proj = nn.Linear(hidden_dim, hidden_dim, bias=False)
-        self.bias = nn.Parameter(torch.rand(hidden_dim).uniform_(-0.1, 0.1))
-        self.score_proj = nn.Linear(hidden_dim, 1)
 
-    def forward(self, query: Tensor, key: Tensor) -> Tuple[Tensor, Tensor]:
-        score = self.score_proj(torch.tanh(self.key_proj(key) + self.query_proj(query) + self.bias)).squeeze(-1)
-        attn = F.softmax(score, dim=-1)
-        context = torch.bmm(attn.unsqueeze(1), key)
-        return context, attn
     
 class HAN_block(nn.Module):
     '''
