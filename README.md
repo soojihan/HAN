@@ -4,8 +4,8 @@ This repository contains source code for our paper:
 Sooji, Han, Rui Mao, and Erik Cambria. "Hierarchical Attention Network for Explainable Depression Detection on Twitter Aided by Metaphor Concept Mappings." In Proceedings of the 29th International Conference on Computational Linguistics (COLING), 2022. in press
 
 # Datasets
-We are currently working on the release of the datasets (tweets and associated metaphor concept mappings publicly.
-In the meantime, please contact Sooji Han (suji.han.x@gmail.com) for requesting the datasets.
+
+The datasets used for training and evaluating HAN are available at https://zenodo.org/record/7095100
 
 # How to run
 
@@ -25,10 +25,11 @@ Key inputs for training are as follows:
 1. Download a pre-trained language model (e.g. bert-base-uncased; https://huggingface.co/bert-base-uncased/tree/main)
 2. In ```depression_classifier.py```, change paths for the following two parameters accordingly:<br/>
         ```self.embedding_tokenizer``` = AutoTokenizer.from_pretrained('[your_dir]/bert-base-uncased')<br/>
-        ```self.embedding_model``` = AutoModel.from_pretrained('[your_dir]/bert-base-uncased').to(self.cuda_device)
+        ```self.embedding_model``` = AutoModel.from_pretrained('[your_dir]/bert-base-uncased').to(self.cuda_device)<br/>
+        <br/>The dimensions of tweets and metaphor concept mappings embeddings are set to 768 by default as 'bert-base-uncased' was used in our experiments. If another pre-trained language model is used, the dimension parameter should be modified in ```depression_classifier.py``` accordingly. 
 
 
-3. Run the following command:<br/>
+3. Run a command:<br/>
 Example usage:<br/>
 python src/model_torch/trainer.py -t '[your_dir]/train.csv' -d '[your_dir]/dev.csv' -e '[your_dir]/test.csv' --post_dir '[your_dir]/mddl_metaphor_input' -p 'training_test' -g 0 --epochs 10 --max_post_size 200
 
